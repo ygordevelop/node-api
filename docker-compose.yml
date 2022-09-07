@@ -1,18 +1,30 @@
 version: '3'
 
 services:
-  api:
-    container_name: api
+  node-api:
+    container_name: node-api
     build:
       context: .
       dockerfile: .docker/node/Dockerfile
-    ports:
-      - 8080:3000
+#    ports:
+#      - 8080:3000
     volumes:
       - ./:/usr/src/app
     networks:
       - api-network
     command: .docker/node/entrypoint.sh
+
+  node-api-proxy:
+    container_name: node-api-proxy
+    image: nginx
+    ports:
+      - 80:80
+    depends_on:
+      - node-api
+    volumes:
+      - .docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - api-network
 
 networks:
   api-network:
