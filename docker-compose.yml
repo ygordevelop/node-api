@@ -26,6 +26,17 @@ services:
     networks:
       - api-network
 
+  node-api-db:
+    container_name: node-api-db
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    networks:
+      - api-network
+
 networks:
   api-network:
     name: api-network

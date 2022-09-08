@@ -2,4 +2,4 @@
 
 cp -r /usr/src/build/node_modules/ /usr/src/app
 
-exec npm start
+exec npm run start:dev
