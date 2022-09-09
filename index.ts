@@ -1,7 +1,7 @@
 import * as express from 'express';
+import * as bodyParser from 'body-parser';
 import { connectDB } from './src/config';
-import { User } from './src/model';
-import {IUser} from "./src/model/user.model";
+import { userRouter } from './src/routes';
 
 const app: express.Application = express();
 
@@ -11,16 +11,10 @@ app.get('/', (req: express.Request, res: express.Response) => {
     res.send('Hello World');
 });
 
-app.get('/users', async (req: express.Request, res: express.Response) => {
-    await User.create({
-        login: 'root',
-        password: '12345'
-    });
+// app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-    const a = await User.findOne().exec();
-
-    res.send(a);
-});
+app.use('/', userRouter);
 
 app.listen(port, async () => {
     await connectDB();
